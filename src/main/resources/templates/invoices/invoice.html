@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .invoice-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+
+        .invoice-items {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-items th, .invoice-items td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .invoice-total {
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-container">
+    <div class="invoice-header">
+        <h1>Faktura</h1>
+    </div>
+
+    <div class="invoice-details">
+        <p><strong>Numer faktury:</strong>
+            <span th:text="${invoice.id}" /></p>
+        <p><strong>Data wystawienia:</strong> <span th:text="${invoice.getCreatedAt()}" /></p>
+
+    </div>
+    <div class="invoice-details">
+        <p><strong>Wystawca:</strong> <span th:text="${invoice.getIssuer().getIssuerFullName()}" /></p>
+        <p><strong>Adres:</strong> <span th:text="${invoice.getIssuer().getIssuerFullAddress()}" /></p>
+    </div>
+    <div class="invoice-details">
+        <p><strong>Odbiorca:</strong> <span th:text="${invoice.getOrder().getClient().getClientFullName()}" /></p>
+        <p><strong>Adres:</strong> <span th:text="${invoice.getClientFullAddress()}" /></p>
+    </div>
+
+    <table class="invoice-items">
+        <thead>
+        <tr>
+            <th>Opis zamówienia</th>
+            <th>Ilość</th>
+            <th>Cena jednostkowa</th>
+            <th>Razem</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${invoice.getOrder().getOrderType().getName()}"></td>
+            <td>1</td>
+            <td th:text="${invoice.getPrice()}"></td>
+            <td th:text="${invoice.getPrice()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="invoice-total">
+        <p><strong>Razem:</strong> <td th:text="${invoice.getPrice()}"></td></p>
+    </div>
+</div>
+
+</body>
+</html>
